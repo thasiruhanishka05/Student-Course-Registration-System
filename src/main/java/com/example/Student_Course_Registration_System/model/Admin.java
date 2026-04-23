@@ -20,7 +20,7 @@ public class Admin extends Person {
         return accessLevel;
     }
 
-    // Setter only for changeable variable
+    // Setter only for changeable variables
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
     }
