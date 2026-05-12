@@ -114,7 +114,6 @@ public class PaymentController {
         return "redirect:/payments";
     }
 
-    // ✅ FIXED: Added Content-Type header so browser renders PDF correctly instead of raw text
     @GetMapping("/payments/receipt/{paymentId}")
     public ResponseEntity<Resource> viewReceipt(@PathVariable String paymentId) {
         Payment payment = paymentService.getPaymentById(paymentId);
@@ -129,7 +128,7 @@ public class PaymentController {
                 return ResponseEntity.notFound().build();
             }
 
-            // Detect actual content type from the file (e.g. application/pdf)
+            // Detect actual content type from the file
             String contentType = Files.probeContentType(filePath);
             if (contentType == null) {
                 contentType = "application/pdf"; // safe fallback since only PDFs are accepted
