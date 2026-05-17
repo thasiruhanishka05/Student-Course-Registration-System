@@ -1,0 +1,4 @@
+A301,Room A301,120,true
+A302,Room A302,120,true
+A303,Room A303,60,true
+B301,Room B301,120,true

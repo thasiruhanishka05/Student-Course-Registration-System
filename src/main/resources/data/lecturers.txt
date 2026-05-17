@@ -1,0 +1,2 @@
+L001,sajeer,sajeer@gmail.com,0723445654,colombo,s123,Computing,Artificial Intelligence
+L002,Rayyan,rayyan@gmail.com,0773853135,Colombo,r123,Engineering,Civil Engineering

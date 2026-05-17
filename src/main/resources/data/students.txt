@@ -1,0 +1,4 @@
+S002,moulana,moulana@gmail.com,0754350024,kandy,m123,1,2026-05-06,INACTIVE
+S003,ashfan,ashfan@gmail.com,0764322945,Colombo,a123,1,2026-05-06,ACTIVE
+S004,rimlan,rimlan@gmail.com,0766275811,weligama,r1234,2,2026-05-06,ACTIVE
+S005,thasiru,t@gmail.com,0764223456,Colombo,t123,1,2026-05-08,ACTIVE
