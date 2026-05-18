@@ -31,7 +31,7 @@ public class RegistrationController {
         model.addAttribute("userName", session.getAttribute("userName"));
         model.addAttribute("userId", session.getAttribute("userId"));
 
-        String role = (String) session.getAttribute("userRole"g);
+        String role = (String) session.getAttribute("userRole");
         String userId = (String) session.getAttribute("userId");
 
         if ("STUDENT".equals(role)) {
