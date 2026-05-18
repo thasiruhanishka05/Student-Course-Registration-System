@@ -43,6 +43,10 @@ public class FeedbackRepository {
                 if (parts.length >= 7) {
                     Student student = studentRepository.findById(parts[1]);
                     Course course = courseRepository.findById(parts[2]);
+                    // Skip feedbacks whose student or course has been deleted
+                    if (student == null || course == null) {
+                        continue;
+                    }
                     Feedback feedback = new Feedback(
                             parts[0],                        // feedbackId
                             student,                         // student object
