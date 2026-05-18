@@ -16,6 +16,14 @@ public class Admin extends Person {
     public String getAdminId() { return adminId; }
     public int getAccessLevel() { return accessLevel; }
 
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
+    }
+
+    public void manageUsers() {
+        System.out.println("Admin " + name + " is managing users");
+    }
+
     @Override
     public void getDetails() {
         System.out.println("Admin ID: " + adminId);
