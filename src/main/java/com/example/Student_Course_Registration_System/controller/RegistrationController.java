@@ -22,7 +22,7 @@ public class RegistrationController {
     @Autowired
     private StudentService studentService;
 
-    @Autowired
+    @Autowiredssx
     private CourseService courseService;
 
     @GetMapping("/registrations")
