@@ -284,4 +284,4 @@ This project was developed for academic purposes as part of a university assignm
 
 ---
 
-<p align="center">Made with ❤️ using Spring Boot & Thymeleaf</p>
+
