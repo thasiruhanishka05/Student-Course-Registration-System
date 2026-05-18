@@ -4,6 +4,7 @@ import com.example.Student_Course_Registration_System.enums.Role;
 
 public class Admin extends Person {
 
+       // ecapsulation 
     private String adminId;
     private int accessLevel;
 
