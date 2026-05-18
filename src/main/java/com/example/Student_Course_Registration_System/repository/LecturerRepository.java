@@ -12,7 +12,7 @@ public class LecturerRepository {
 
     private static final String FILE_PATH = "src/main/resources/data/lecturers.txt";
 
-    // Auto generate lecturer ID
+
     public String generateId() {
         List<Lecturer> lecturers = findAll();
         int max = 0;
