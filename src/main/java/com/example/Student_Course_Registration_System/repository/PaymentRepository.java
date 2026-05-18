@@ -64,6 +64,10 @@ public class PaymentRepository {
                 String[] parts = line.split(",");
                 if (parts.length == 7) {
                     Student student = studentRepository.findById(parts[1]);
+                    // Skip payments whose student has been deleted
+                    if (student == null) {
+                        continue;
+                    }
                     Payment payment = new Payment(
                             parts[0],                              // paymentId
                             student,                               // student object
