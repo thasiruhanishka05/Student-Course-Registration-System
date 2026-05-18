@@ -102,9 +102,6 @@ public class RegistrationController {
         return "redirect:/registrations";
     }
 
-    @GetMapping("/registrations/delete/{registrationId}")
-    public String deleteRegistration(@PathVariable String registrationId) {
-        registrationService.deleteRegistration(registrationId);
-        return "redirect:/registrations";
+    
     }
 }
