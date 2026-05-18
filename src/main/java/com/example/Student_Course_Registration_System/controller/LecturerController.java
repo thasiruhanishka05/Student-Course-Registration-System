@@ -15,7 +15,7 @@ public class LecturerController {
     @Autowired
     private LecturerService lecturerService;
 
-    // Show all lecturers
+    // Show all lecturer
     @GetMapping("/lecturers")
     public String getAllLecturers(Model model, HttpSession session) {
         model.addAttribute("userRole", session.getAttribute("userRole"));
