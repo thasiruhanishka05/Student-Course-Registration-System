@@ -5,10 +5,10 @@ import com.example.Student_Course_Registration_System.enums.RegistrationStatus;
 public class Registration {
 
     private String registrationId;
-    private Student student;
-    private Course course;
+    private Student student;// AGGREGATION - Registration "has a" Student
+    private Course course;// AGGREGATION - Registration "has a" Course
     private String registrationDate;
-    private RegistrationStatus status;
+    private RegistrationStatus status;// DEPENDENCY - Registration depends on RegistrationStatus enum to track state
 
     public Registration(String registrationId, Student student, Course course, String registrationDate) {
         this.registrationId = registrationId;
