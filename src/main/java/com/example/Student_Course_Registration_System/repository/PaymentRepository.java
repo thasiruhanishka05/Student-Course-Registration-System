@@ -39,7 +39,7 @@ public class PaymentRepository {
         }
     }
 
-    // Save payment to txt file
+    // Save payment to txt files
     public void save(Payment payment) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             writer.write(payment.getPaymentId() + "," +
@@ -55,7 +55,7 @@ public class PaymentRepository {
         }
     }
 
-    // Find all payments from txt file
+    // Find all payments from txt files
     public List<Payment> findAll() {
         List<Payment> payments = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
