@@ -3,7 +3,10 @@ package com.example.Student_Course_Registration_System.repository;
 import com.example.Student_Course_Registration_System.model.Admin;
 import org.springframework.stereotype.Repository;
 
+<<<<<<< Updated upstream
 import org.springframework.core.io.ClassPathResource;
+=======
+>>>>>>> Stashed changes
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.List;
 @Repository
 public class AdminRepository {
 
+<<<<<<< Updated upstream
     private String getFilePath() {
         try {
             return new ClassPathResource("data/admins.txt").getFile().getAbsolutePath();
@@ -18,6 +22,9 @@ public class AdminRepository {
             return "src/main/resources/data/admins.txt";
         }
     }
+=======
+    private static final String FILE_PATH = "src/main/resources/data/admins.txt";
+>>>>>>> Stashed changes
 
     // Auto generate admin ID
     public String generateId() {
@@ -34,7 +41,11 @@ public class AdminRepository {
 
     // Save admin to txt file
     public void save(Admin admin) {
+<<<<<<< Updated upstream
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), true))) {
+=======
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+>>>>>>> Stashed changes
             writer.write(admin.getAdminId() + "," +
                     admin.getName() + "," +
                     admin.getEmail() + "," +
@@ -51,7 +62,11 @@ public class AdminRepository {
     // Find all admins from txt file
     public List<Admin> findAll() {
         List<Admin> admins = new ArrayList<>();
+<<<<<<< Updated upstream
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
+=======
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+>>>>>>> Stashed changes
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -87,7 +102,11 @@ public class AdminRepository {
     // Update admin in txt file
     public void update(Admin updatedAdmin) {
         List<Admin> admins = findAll();
+<<<<<<< Updated upstream
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), false))) {
+=======
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+>>>>>>> Stashed changes
             for (Admin admin : admins) {
                 if (admin.getAdminId().equals(updatedAdmin.getAdminId())) {
                     writer.write(updatedAdmin.getAdminId() + "," +
@@ -113,7 +132,11 @@ public class AdminRepository {
         }
     }
 
+<<<<<<< Updated upstream
     // Delete admin from txt file
+=======
+
+>>>>>>> Stashed changes
     public void delete(String adminId) {
         List<Admin> admins = findAll();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {

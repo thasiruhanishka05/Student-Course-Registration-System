@@ -15,7 +15,11 @@ public class LecturerController {
     @Autowired
     private LecturerService lecturerService;
 
+<<<<<<< Updated upstream
     // Show all lecturer
+=======
+    // Show all lecturers
+>>>>>>> Stashed changes
     @GetMapping("/lecturers")
     public String getAllLecturers(Model model, HttpSession session) {
         model.addAttribute("userRole", session.getAttribute("userRole"));

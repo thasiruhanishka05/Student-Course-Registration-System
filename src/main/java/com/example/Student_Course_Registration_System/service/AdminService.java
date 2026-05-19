@@ -1,11 +1,15 @@
 package com.example.Student_Course_Registration_System.service;
 
 import com.example.Student_Course_Registration_System.model.Admin;
+<<<<<<< Updated upstream
 import com.example.Student_Course_Registration_System.model.Lecturer;
 import com.example.Student_Course_Registration_System.model.Student;
 import com.example.Student_Course_Registration_System.repository.AdminRepository;
 import com.example.Student_Course_Registration_System.repository.LecturerRepository;
 import com.example.Student_Course_Registration_System.repository.StudentRepository;
+=======
+import com.example.Student_Course_Registration_System.repository.AdminRepository;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +22,21 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+<<<<<<< Updated upstream
     @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
     private LecturerRepository lecturerRepository;
 
+=======
+>>>>>>> Stashed changes
     // Generate admin ID
     public String generateAdminId() {
         return adminRepository.generateId();
     }
 
+<<<<<<< Updated upstream
     // Add new admin - returns error message or null on success
     public String addAdmin(Admin admin) {
         Admin existing = adminRepository.findById(admin.getAdminId());
@@ -49,6 +57,24 @@ public class AdminService {
         if (crossError != null) return crossError;
         adminRepository.save(admin);
         return null;
+=======
+    // Add new admin
+    public void addAdmin(Admin admin) {
+        Admin existing = adminRepository.findById(admin.getAdminId());
+        if (existing != null) {
+            System.out.println("Admin ID already exists");
+            return;
+        }
+        List<Admin> admins = adminRepository.findAll();
+        for (Admin a : admins) {
+            if (a.getEmail().equals(admin.getEmail())) {
+                System.out.println("Email already exists");
+                return;
+            }
+        }
+        adminRepository.save(admin);
+        System.out.println("Admin added successfully");
+>>>>>>> Stashed changes
     }
 
     // Get all admins
@@ -65,6 +91,7 @@ public class AdminService {
         return admin;
     }
 
+<<<<<<< Updated upstream
     // Update admin - returns error message or null on success
     public String updateAdmin(Admin admin) {
         Admin existing = adminRepository.findById(admin.getAdminId());
@@ -88,6 +115,17 @@ public class AdminService {
         if (crossError != null) return crossError;
         adminRepository.update(admin);
         return null;
+=======
+    // Update admin
+    public void updateAdmin(Admin admin) {
+        Admin existing = adminRepository.findById(admin.getAdminId());
+        if (existing == null) {
+            System.out.println("Admin not found");
+            return;
+        }
+        adminRepository.update(admin);
+        System.out.println("Admin updated successfully");
+>>>>>>> Stashed changes
     }
 
     // Delete admin
@@ -134,6 +172,7 @@ public class AdminService {
     public int getTotalAdmins() {
         return adminRepository.findAll().size();
     }
+<<<<<<< Updated upstream
 
     // Check if email is used by a student or lecturer
     private String checkCrossEntityEmail(String email) {
@@ -149,4 +188,6 @@ public class AdminService {
         }
         return null;
     }
+=======
+>>>>>>> Stashed changes
 }

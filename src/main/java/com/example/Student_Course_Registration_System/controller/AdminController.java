@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< Updated upstream
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+=======
+>>>>>>> Stashed changes
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -119,31 +122,47 @@ public class AdminController {
             @RequestParam(required = false) String department,
             @RequestParam(required = false) String specialization,
             @RequestParam(required = false, defaultValue = "0") int semester,
+<<<<<<< Updated upstream
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
         String role = (String) session.getAttribute("userRole");
         String userId = (String) session.getAttribute("userId");
         String error = null;
+=======
+            HttpSession session) {
+
+        String role = (String) session.getAttribute("userRole");
+        String userId = (String) session.getAttribute("userId");
+>>>>>>> Stashed changes
 
         if ("ADMIN".equals(role)) {
             Admin existingAdmin = adminService.getAdminById(userId);
             String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingAdmin.getPassword();
             Admin updated = new Admin(name, email, phone, address, finalPassword, userId, existingAdmin.getAccessLevel());
+<<<<<<< Updated upstream
             error = adminService.updateAdmin(updated);
+=======
+            adminService.updateAdmin(updated);
+>>>>>>> Stashed changes
         } else if ("STUDENT".equals(role)) {
             Student existingStudent = studentService.getStudentById(userId);
             String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingStudent.getPassword();
             Student updated = new Student(name, email, phone, address, finalPassword, userId,
                     existingStudent.getEnrollmentDate(), semester > 0 ? semester : existingStudent.getSemester());
             updated.setStatus(existingStudent.getStatus());
+<<<<<<< Updated upstream
             error = studentService.updateStudent(updated);
+=======
+            studentService.updateStudent(updated);
+>>>>>>> Stashed changes
         } else if ("LECTURER".equals(role)) {
             Lecturer existingLecturer = lecturerService.getLecturerById(userId);
             String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingLecturer.getPassword();
             Lecturer updated = new Lecturer(name, email, phone, address, finalPassword, userId,
                     department != null ? department : existingLecturer.getDepartment(),
                     specialization != null ? specialization : existingLecturer.getSpecialization());
+<<<<<<< Updated upstream
             error = lecturerService.updateLecturer(updated);
         }
 
@@ -153,6 +172,12 @@ public class AdminController {
             session.setAttribute("userName", name);
             redirectAttributes.addFlashAttribute("success", "Profile updated successfully");
         }
+=======
+            lecturerService.updateLecturer(updated);
+        }
+
+        session.setAttribute("userName", name);
+>>>>>>> Stashed changes
         return "redirect:/profile";
     }
 
@@ -199,6 +224,7 @@ public class AdminController {
             @RequestParam String phone,
             @RequestParam String address,
             @RequestParam String password,
+<<<<<<< Updated upstream
             @RequestParam int accessLevel,
             RedirectAttributes redirectAttributes) {
 
@@ -210,6 +236,13 @@ public class AdminController {
         } else {
             redirectAttributes.addFlashAttribute("success", "Admin added successfully");
         }
+=======
+            @RequestParam int accessLevel) {
+
+        String adminId = "ADM" + System.currentTimeMillis();
+        Admin admin = new Admin(name, email, phone, address, password, adminId, accessLevel);
+        adminService.addAdmin(admin);
+>>>>>>> Stashed changes
         return "redirect:/admins";
     }
 
@@ -241,18 +274,26 @@ public class AdminController {
             @RequestParam String phone,
             @RequestParam String address,
             @RequestParam(required = false) String password,
+<<<<<<< Updated upstream
             @RequestParam int accessLevel,
             RedirectAttributes redirectAttributes) {
+=======
+            @RequestParam int accessLevel) {
+>>>>>>> Stashed changes
 
         Admin existingAdmin = adminService.getAdminById(adminId);
         String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingAdmin.getPassword();
         Admin admin = new Admin(name, email, phone, address, finalPassword, adminId, accessLevel);
+<<<<<<< Updated upstream
         String error = adminService.updateAdmin(admin);
         if (error != null) {
             redirectAttributes.addFlashAttribute("error", error);
         } else {
             redirectAttributes.addFlashAttribute("success", "Admin updated successfully");
         }
+=======
+        adminService.updateAdmin(admin);
+>>>>>>> Stashed changes
         return "redirect:/admins";
     }
 
