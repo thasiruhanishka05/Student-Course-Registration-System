@@ -139,6 +139,24 @@ public class FeedbackRepository {
     }
 
     // Delete feedback from txt files
-    
+    public void delete(String feedbackId) {
+        List<Feedback> feedbacks = findAll();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+            for (Feedback feedback : feedbacks) {
+                if (!feedback.getFeedbackId().equals(feedbackId)) {
+                    writer.write(feedback.getFeedbackId() + "," +
+                            feedback.getStudent().getStudentId() + "," +
+                            feedback.getCourse().getCourseId() + "," +
+                            feedback.getRating() + "," +
+                            feedback.getComment() + "," +
+                            feedback.getDate() + "," +
+                            feedback.isSubmitted() + "," +
+                            (feedback.getReply() == null || feedback.getReply().isEmpty() ? "null" : feedback.getReply()));
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error deleting feedback: " + e.getMessage());
+        }
     }
 }
