@@ -15,14 +15,13 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class RegistrationController {
-
     @Autowired
     private RegistrationService registrationService;
 
     @Autowired
     private StudentService studentService;
 
-    @Autowiredssx
+    @Autowired
     private CourseService courseService;
 
     @GetMapping("/registrations")
