@@ -107,7 +107,7 @@ public class FeedbackRepository {
         return courseFeedbacks;
     }
 
-    // Update feedback in txt file
+    // Update feedback in txt files
     public void update(Feedback updatedFeedback) {
         List<Feedback> feedbacks = findAll();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
@@ -138,7 +138,7 @@ public class FeedbackRepository {
         }
     }
 
-    // Delete feedback from txt file
+    // Delete feedback from txt files
     public void delete(String feedbackId) {
         List<Feedback> feedbacks = findAll();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
