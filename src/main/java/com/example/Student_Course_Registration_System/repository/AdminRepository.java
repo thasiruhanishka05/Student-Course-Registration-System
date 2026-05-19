@@ -3,6 +3,7 @@ package com.example.Student_Course_Registration_System.repository;
 import com.example.Student_Course_Registration_System.model.Admin;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.core.io.ClassPathResource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,13 @@ import java.util.List;
 @Repository
 public class AdminRepository {
 
-    private static final String FILE_PATH = "src/main/resources/data/admins.txt";
+    private String getFilePath() {
+        try {
+            return new ClassPathResource("data/admins.txt").getFile().getAbsolutePath();
+        } catch (IOException e) {
+            return "src/main/resources/data/admins.txt";
+        }
+    }
 
     // Auto generate admin ID
     public String generateId() {
@@ -27,7 +34,7 @@ public class AdminRepository {
 
     // Save admin to txt file
     public void save(Admin admin) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), true))) {
             writer.write(admin.getAdminId() + "," +
                     admin.getName() + "," +
                     admin.getEmail() + "," +
@@ -44,7 +51,7 @@ public class AdminRepository {
     // Find all admins from txt file
     public List<Admin> findAll() {
         List<Admin> admins = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -80,7 +87,7 @@ public class AdminRepository {
     // Update admin in txt file
     public void update(Admin updatedAdmin) {
         List<Admin> admins = findAll();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), false))) {
             for (Admin admin : admins) {
                 if (admin.getAdminId().equals(updatedAdmin.getAdminId())) {
                     writer.write(updatedAdmin.getAdminId() + "," +

@@ -3,6 +3,7 @@ package com.example.Student_Course_Registration_System.repository;
 import com.example.Student_Course_Registration_System.model.Lecturer;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.core.io.ClassPathResource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,15 @@ import java.util.List;
 @Repository
 public class LecturerRepository {
 
-    private static final String FILE_PATH = "src/main/resources/data/lecturers.txt";
+    private String getFilePath() {
+        try {
+            return new ClassPathResource("data/lecturers.txt").getFile().getAbsolutePath();
+        } catch (IOException e) {
+            return "src/main/resources/data/lecturers.txt";
+        }
+    }
 
-
+    // Auto generate lecturer ID
     public String generateId() {
         List<Lecturer> lecturers = findAll();
         int max = 0;
@@ -27,7 +34,7 @@ public class LecturerRepository {
 
     // Save lecturer to txt file
     public void save(Lecturer lecturer) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), true))) {
             writer.write(lecturer.getLecturerId() + "," +
                     lecturer.getName() + "," +
                     lecturer.getEmail() + "," +
@@ -45,7 +52,7 @@ public class LecturerRepository {
     // Find all lecturers from txt file
     public List<Lecturer> findAll() {
         List<Lecturer> lecturers = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -82,7 +89,7 @@ public class LecturerRepository {
     // Update lecturer in txt file
     public void update(Lecturer updatedLecturer) {
         List<Lecturer> lecturers = findAll();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), false))) {
             for (Lecturer lecturer : lecturers) {
                 if (lecturer.getLecturerId().equals(updatedLecturer.getLecturerId())) {
                     writer.write(updatedLecturer.getLecturerId() + "," +
