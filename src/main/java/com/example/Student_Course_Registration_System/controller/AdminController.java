@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -118,33 +119,40 @@ public class AdminController {
             @RequestParam(required = false) String department,
             @RequestParam(required = false) String specialization,
             @RequestParam(required = false, defaultValue = "0") int semester,
-            HttpSession session) {
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
 
         String role = (String) session.getAttribute("userRole");
         String userId = (String) session.getAttribute("userId");
+        String error = null;
 
         if ("ADMIN".equals(role)) {
             Admin existingAdmin = adminService.getAdminById(userId);
             String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingAdmin.getPassword();
             Admin updated = new Admin(name, email, phone, address, finalPassword, userId, existingAdmin.getAccessLevel());
-            adminService.updateAdmin(updated);
+            error = adminService.updateAdmin(updated);
         } else if ("STUDENT".equals(role)) {
             Student existingStudent = studentService.getStudentById(userId);
             String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingStudent.getPassword();
             Student updated = new Student(name, email, phone, address, finalPassword, userId,
                     existingStudent.getEnrollmentDate(), semester > 0 ? semester : existingStudent.getSemester());
             updated.setStatus(existingStudent.getStatus());
-            studentService.updateStudent(updated);
+            error = studentService.updateStudent(updated);
         } else if ("LECTURER".equals(role)) {
             Lecturer existingLecturer = lecturerService.getLecturerById(userId);
             String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingLecturer.getPassword();
             Lecturer updated = new Lecturer(name, email, phone, address, finalPassword, userId,
                     department != null ? department : existingLecturer.getDepartment(),
                     specialization != null ? specialization : existingLecturer.getSpecialization());
-            lecturerService.updateLecturer(updated);
+            error = lecturerService.updateLecturer(updated);
         }
 
-        session.setAttribute("userName", name);
+        if (error != null) {
+            redirectAttributes.addFlashAttribute("error", error);
+        } else {
+            session.setAttribute("userName", name);
+            redirectAttributes.addFlashAttribute("success", "Profile updated successfully");
+        }
         return "redirect:/profile";
     }
 
@@ -191,11 +199,17 @@ public class AdminController {
             @RequestParam String phone,
             @RequestParam String address,
             @RequestParam String password,
-            @RequestParam int accessLevel) {
+            @RequestParam int accessLevel,
+            RedirectAttributes redirectAttributes) {
 
         String adminId = "ADM" + System.currentTimeMillis();
         Admin admin = new Admin(name, email, phone, address, password, adminId, accessLevel);
-        adminService.addAdmin(admin);
+        String error = adminService.addAdmin(admin);
+        if (error != null) {
+            redirectAttributes.addFlashAttribute("error", error);
+        } else {
+            redirectAttributes.addFlashAttribute("success", "Admin added successfully");
+        }
         return "redirect:/admins";
     }
 
@@ -227,12 +241,18 @@ public class AdminController {
             @RequestParam String phone,
             @RequestParam String address,
             @RequestParam(required = false) String password,
-            @RequestParam int accessLevel) {
+            @RequestParam int accessLevel,
+            RedirectAttributes redirectAttributes) {
 
         Admin existingAdmin = adminService.getAdminById(adminId);
         String finalPassword = (password != null && !password.trim().isEmpty()) ? password : existingAdmin.getPassword();
         Admin admin = new Admin(name, email, phone, address, finalPassword, adminId, accessLevel);
-        adminService.updateAdmin(admin);
+        String error = adminService.updateAdmin(admin);
+        if (error != null) {
+            redirectAttributes.addFlashAttribute("error", error);
+        } else {
+            redirectAttributes.addFlashAttribute("success", "Admin updated successfully");
+        }
         return "redirect:/admins";
     }
 

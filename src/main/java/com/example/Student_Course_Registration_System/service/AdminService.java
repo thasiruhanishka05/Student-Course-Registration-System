@@ -1,7 +1,11 @@
 package com.example.Student_Course_Registration_System.service;
 
 import com.example.Student_Course_Registration_System.model.Admin;
+import com.example.Student_Course_Registration_System.model.Lecturer;
+import com.example.Student_Course_Registration_System.model.Student;
 import com.example.Student_Course_Registration_System.repository.AdminRepository;
+import com.example.Student_Course_Registration_System.repository.LecturerRepository;
+import com.example.Student_Course_Registration_System.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,27 +18,37 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private LecturerRepository lecturerRepository;
+
     // Generate admin ID
     public String generateAdminId() {
         return adminRepository.generateId();
     }
 
-    // Add new admin
-    public void addAdmin(Admin admin) {
+    // Add new admin - returns error message or null on success
+    public String addAdmin(Admin admin) {
         Admin existing = adminRepository.findById(admin.getAdminId());
         if (existing != null) {
-            System.out.println("Admin ID already exists");
-            return;
+            return "Admin ID already exists";
         }
         List<Admin> admins = adminRepository.findAll();
         for (Admin a : admins) {
-            if (a.getEmail().equals(admin.getEmail())) {
-                System.out.println("Email already exists");
-                return;
+            if (a.getEmail().equalsIgnoreCase(admin.getEmail())) {
+                return "An admin with this email already exists";
+            }
+            if (a.getPhone().equals(admin.getPhone())) {
+                return "An admin with this phone number already exists";
             }
         }
+        // Cross-entity email check
+        String crossError = checkCrossEntityEmail(admin.getEmail());
+        if (crossError != null) return crossError;
         adminRepository.save(admin);
-        System.out.println("Admin added successfully");
+        return null;
     }
 
     // Get all admins
@@ -51,15 +65,29 @@ public class AdminService {
         return admin;
     }
 
-    // Update admin
-    public void updateAdmin(Admin admin) {
+    // Update admin - returns error message or null on success
+    public String updateAdmin(Admin admin) {
         Admin existing = adminRepository.findById(admin.getAdminId());
         if (existing == null) {
-            System.out.println("Admin not found");
-            return;
+            return "Admin not found";
         }
+        // Check duplicate email (exclude self)
+        List<Admin> admins = adminRepository.findAll();
+        for (Admin a : admins) {
+            if (!a.getAdminId().equals(admin.getAdminId())) {
+                if (a.getEmail().equalsIgnoreCase(admin.getEmail())) {
+                    return "An admin with this email already exists";
+                }
+                if (a.getPhone().equals(admin.getPhone())) {
+                    return "An admin with this phone number already exists";
+                }
+            }
+        }
+        // Cross-entity email check
+        String crossError = checkCrossEntityEmail(admin.getEmail());
+        if (crossError != null) return crossError;
         adminRepository.update(admin);
-        System.out.println("Admin updated successfully");
+        return null;
     }
 
     // Delete admin
@@ -105,5 +133,20 @@ public class AdminService {
     // Get total admin count
     public int getTotalAdmins() {
         return adminRepository.findAll().size();
+    }
+
+    // Check if email is used by a student or lecturer
+    private String checkCrossEntityEmail(String email) {
+        for (Student s : studentRepository.findAll()) {
+            if (s.getEmail().equalsIgnoreCase(email)) {
+                return "This email is already used by a student";
+            }
+        }
+        for (Lecturer l : lecturerRepository.findAll()) {
+            if (l.getEmail().equalsIgnoreCase(email)) {
+                return "This email is already used by a lecturer";
+            }
+        }
+        return null;
     }
 }
