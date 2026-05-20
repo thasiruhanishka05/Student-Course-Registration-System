@@ -14,24 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RegistrationService {
+public class RegistrationService {//A
 
     @Autowired
-    private RegistrationRepository registrationRepository;
+    private RegistrationRepository registrationRepository;//private fields, outside cant directly access
 
     @Autowired
     private CourseRepository courseRepository;
 
-    // Add new registration
+    // Add new registration all hide
     public void addRegistration(Student student, Course course) {
-        // Check if student is already registered for this course
+        // Check if student is already registered for this temporyiry course
         List<Registration> existing = registrationRepository.findByStudentId(student.getStudentId());
-        for (Registration r : existing) {
+
+        for (Registration r : existing) {//dont know course id store int object
             if (r.getCourse().getCourseId().equals(course.getCourseId())) {
                 System.out.println("Student already registered for this course");
                 return;
             }
         }
+
         // Check if course is available
         if (!course.isAvailable()) {
             System.out.println("Course is full");
