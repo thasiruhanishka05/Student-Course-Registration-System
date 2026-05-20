@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class RegistrationController {
-
     @Autowired
     private RegistrationService registrationService;
 
